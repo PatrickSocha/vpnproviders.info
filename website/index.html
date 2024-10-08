@@ -2,18 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>VPN Providers | A tabular list of VPN providers</title>
+    <title>VPN Providers.info | A tabular list of VPN providers</title>
     <link rel="icon" type="image/png" href="assets/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin-left: 10%;
-            margin-right: 10%;
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            position: relative;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            min-width: 800px;
         }
         table, th, td {
             border: 1px solid black;
@@ -25,6 +32,28 @@
         }
         th {
             background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            border: 1px solid black;
+        }
+        th.name-header {
+            left: 0;
+            z-index: 3;
+            border-right: 1px solid black;
+        }
+        td.name {
+            position: sticky;
+            left: 0;
+            background-color: #f2f2f2;
+            z-index: 1;
+            border-right: 1px solid black;
+        }
+        td {
+            border: 1px solid black;
+        }
+        td.name:hover {
+            background-color: #ddd;
         }
         th.sortable:hover {
             background-color: #ddd;
@@ -39,6 +68,12 @@
             margin-left: 5px;
             font-size: 12px;
         }
+        @media (max-width: 768px) {
+            body {
+                margin-left: 5%;
+                margin-right: 5%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -46,23 +81,28 @@
 <p>There are lots of VPN providers to choose from, but which is best for you?<br />
     Below is a table with the raw data. No opinion, no paid reviews, providers are loaded in random order.</p>
 <p>You are invited to open a Pull Request to add or update existing vpn providers.</p>
-<table id="vpn-table">
-    <thead>
-    <tr>
-        <th class="sortable" data-column="name">Name <span class="arrow" id="name-arrow"></span></th>
-        <th class="sortable" data-column="locations">Locations <span class="arrow" id="locations-arrow"></span></th>
-        <th class="sortable" data-column="servers">Servers <span class="arrow" id="servers-arrow"></span></th>
-        <th class="sortable" data-column="connections">Connections <span class="arrow" id="connections-arrow"></span></th>
-        <th class="sortable" data-column="speed">Speed <span class="arrow" id="speed-arrow"></span></th>
-        <th class="sortable" data-column="yearlyCost">1st Year Cost <span class="arrow" id="firstYearCost-arrow"></span></th>
-        <th class="sortable" data-column="yearlyCost">Renewal Cost <span class="arrow" id="secondYearCost-arrow"></span></th>
-        <th class="sortable" data-column="incorporationDate">Incorporation Date <span class="arrow" id="incorporationDate-arrow"></span></th>
-        <th class="sortable" data-column="ultimateOwner">Ultimate Beneficial Owner <span class="arrow" id="ultimateOwner-arrow"></span></th>
-        <th class="sortable" data-column="country">Country <span class="arrow" id="country-arrow"></span></th>
-    </tr>
-    </thead>
-    <tbody></tbody> <!-- Inject here -->
-</table>
+
+<!-- Wrap the table in a div for horizontal scrolling -->
+<div class="table-container">
+    <table id="vpn-table">
+        <thead>
+        <tr>
+            <th class="sortable name-header" data-column="name">Name <span class="arrow" id="name-arrow"></span></th>
+            <th class="sortable" data-column="locations">Locations <span class="arrow" id="locations-arrow"></span></th>
+            <th class="sortable" data-column="servers">Servers <span class="arrow" id="servers-arrow"></span></th>
+            <th class="sortable" data-column="connections">Connections <span class="arrow" id="connections-arrow"></span></th>
+            <th class="sortable" data-column="speed">Speed <span class="arrow" id="speed-arrow"></span></th>
+            <th class="sortable" data-column="firstYearCost">1st Year Cost <span class="arrow" id="firstYearCost-arrow"></span></th>
+            <th class="sortable" data-column="secondYearCost">Renewal Cost <span class="arrow" id="secondYearCost-arrow"></span></th>
+            <th class="sortable" data-column="incorporationDate">Incorporation Date <span class="arrow" id="incorporationDate-arrow"></span></th>
+            <th class="sortable" data-column="ultimateOwner">Ultimate Beneficial Owner <span class="arrow" id="ultimateOwner-arrow"></span></th>
+            <th class="sortable" data-column="country">Country <span class="arrow" id="country-arrow"></span></th>
+        </tr>
+        </thead>
+        <tbody></tbody> <!-- Inject here -->
+    </table>
+</div>
+
 <p id="updated"></p>
 
 <div id="hosting">
@@ -126,7 +166,7 @@
         vpnData.forEach(vpn => {
             const row = `
             <tr>
-                <td><a href="${vpn.website}?utm_source=vpnproviders.info">${vpn.name}</a></td>
+                <td class="name"><a href="${vpn.website}?utm_source=vpnproviders.info">${vpn.name}</a></td>
                 <td>${vpn.locations}</td>
                 <td>${vpn.servers}</td>
                 <td>${vpn.connections}</td>
