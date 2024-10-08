@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Providers | A tabular list of VPN providers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        th.sortable:hover {
+            background-color: #ddd;
+        }
+        #hosting {
+            margin-top: 40px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+        }
+        .arrow {
+            margin-left: 5px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<h1>VPN Providers.info</h1>
+<p>There are lots of VPN providers to choose from, but which is best for you?<br />
+    Below is a table with the raw data. No opinion, no paid reviews, providers are loaded in random order.</p>
+<p>You are invited to open a Pull Request to add or update existing vpn providers.</p>
+<table id="vpn-table">
+    <thead>
+    <tr>
+        <th class="sortable" data-column="name">Name <span class="arrow" id="name-arrow"></span></th>
+        <th class="sortable" data-column="locations">Locations <span class="arrow" id="locations-arrow"></span></th>
+        <th class="sortable" data-column="servers">Servers <span class="arrow" id="servers-arrow"></span></th>
+        <th class="sortable" data-column="connections">Connections <span class="arrow" id="connections-arrow"></span></th>
+        <th class="sortable" data-column="speed">Speed <span class="arrow" id="speed-arrow"></span></th>
+        <th class="sortable" data-column="yearlyCost">1st Year Cost <span class="arrow" id="firstYearCost-arrow"></span></th>
+        <th class="sortable" data-column="yearlyCost">Renewal Cost <span class="arrow" id="secondYearCost-arrow"></span></th>
+        <th class="sortable" data-column="incorporationDate">Incorporation Date <span class="arrow" id="incorporationDate-arrow"></span></th>
+        <th class="sortable" data-column="ultimateOwner">Ultimate Beneficial Owner <span class="arrow" id="ultimateOwner-arrow"></span></th>
+        <th class="sortable" data-column="country">Country <span class="arrow" id="country-arrow"></span></th>
+    </tr>
+    </thead>
+    <tbody></tbody> <!-- Inject here -->
+</table>
+<p id="updated"></p>
+
+<div id="hosting">
+    <h2>Host Your Own VPN</h2>
+    <p>Hosting your own VPN is easier than you think. Try the <a href="https://github.com/Nyr/wireguard-install" target="_blank">Nyr Wireguard Setup Script</a> to install and manage your own VPN.</p>
+    <ol>
+        <li>Get a server and connect to it</li>
+        <li>Run the setup script <a href="https://github.com/Nyr/wireguard-install" target="_blank">GitHub repository</a>.</li>
+        <li>Follow the setup instructions. Once done, copy the client certificate to your WireGuard client on your computer or phone.</li>
+    </ol>
+</div>
+
+<script>
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+    let sortOrder = 1; // 1 = ascending, -1 = descending
+
+    function sortTableByColumn(column, header) {
+        const tableBody = document.querySelector('#vpn-table tbody');
+        const rows = Array.from(tableBody.querySelectorAll('tr'));
+        const columnNumber = Array.from(header.parentElement.children).indexOf(header);
+
+        rows.sort((a, b) => {
+            const aText = a.querySelector(`td:nth-child(${columnNumber + 1})`).textContent.trim();
+            const bText = b.querySelector(`td:nth-child(${columnNumber + 1})`).textContent.trim();
+            return aText.localeCompare(bText, undefined, { numeric: true }) * sortOrder;
+        });
+        rows.forEach(row => tableBody.appendChild(row));
+        updateArrow(header);
+        sortOrder *= -1;
+    }
+
+
+    function updateArrow(header) {
+        const allArrows = document.querySelectorAll('.arrow');
+        allArrows.forEach(arrow => arrow.textContent = '');
+
+        const arrow = header.querySelector('.arrow');
+        if (sortOrder === 1) {
+            arrow.textContent = '▲';
+        } else {
+            arrow.textContent = '▼';
+        }
+    }
+
+    async function loadVPNData() {
+        const response = await fetch('vpn_data.json');
+        const data = await response.json();
+
+        document.getElementById("updated").textContent = "Updated: " + data.updated;
+
+        const vpnData = data.providers;
+        const tableBody = document.querySelector('#vpn-table tbody');
+        shuffleArray(vpnData);
+
+        vpnData.forEach(vpn => {
+            const row = `
+            <tr>
+                <td><a href="${vpn.website}?utm_source=vpnproviders.info">${vpn.name}</a></td>
+                <td>${vpn.locations}</td>
+                <td>${vpn.servers}</td>
+                <td>${vpn.connections}</td>
+                <td>${vpn.speed}</td>
+                <td>${vpn.firstYearCost}</td>
+                <td>${vpn.secondYearCost}</td>
+                <td>${vpn.incorporationDate}</td>
+                <td>${vpn.ultimateOwner}</td>
+                <td>${vpn.country}</td>
+            </tr>
+        `;
+            tableBody.insertAdjacentHTML('beforeend', row);
+        });
+
+    }
+
+    document.querySelectorAll('.sortable').forEach(header => {
+        header.addEventListener('click', () => sortTableByColumn(header.dataset.column, header));
+    });
+
+    loadVPNData();
+</script>
+</body>
+</html>
