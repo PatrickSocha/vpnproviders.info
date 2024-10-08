@@ -1,7 +1,5 @@
 # [VPN Providers.info](https://vpnproviders.info?utm_source=github)
 
-----
-
 Most people [don't need a vpn](https://www.youtube.com/watch?v=WVDQEoe6ZWY). If you do, here is a list of providers in no particular order. This originally started with me wanting to understand the [UBO](https://en.wikipedia.org/wiki/Beneficial_ownership) and jurisdiction of vpn providers, and it ended up as a single page with my findings.
 
 
