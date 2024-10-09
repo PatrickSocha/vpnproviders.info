@@ -1,5 +1,5 @@
 {
-    "updated": "2024-10-08",
+    "updated": "2024-10-09",
     "providers": [
         {
             "name": "NordVPN",
@@ -253,6 +253,48 @@
             "country": "USA",
             "logs": false,
             "website": "https://www.namecheap.com/vpn/"
+        },
+        {
+            "name": "Free VPN Planet",
+            "incorporationDate": "2022",
+            "ultimateOwner": "Free VPN Planet S.R.L",
+            "connections": "10",
+            "speed": "23.7 Mbps",
+            "locations": 60,
+            "servers": 1200,
+            "firstYearCost": "$47.88",
+            "secondYearCost": "$119.88",
+            "country": "Romania",
+            "logs": false,
+            "website": "https://freevpnplanet.com"
+        },
+        {
+            "name": "VPN Unlimited",
+            "incorporationDate": "2013",
+            "ultimateOwner": "KeepSolid Inc.",
+            "connections": "Unlimited",
+            "speed": "60 Mbps",
+            "locations": 80,
+            "servers": 3000,
+            "firstYearCost": "$59.99",
+            "secondYearCost": "$59.99",
+            "country": "USA",
+            "logs": false,
+            "website": "http://www.vpnunlimited.com"
+        },
+        {
+            "name": "PrivadoVPN",
+            "incorporationDate": "2019-01-01",
+            "ultimateOwner": "Privado Networks AG",
+            "connections": "10",
+            "speed": "880 Mbps",
+            "locations": 49,
+            "servers": 316,
+            "firstYearCost": "$44.85",
+            "secondYearCost": "$164.85",
+            "country": "Switzerland",
+            "logs": false,
+            "website": "https://privadovpn.com"
         }
     ]
 }
